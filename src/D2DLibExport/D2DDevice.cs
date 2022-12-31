@@ -110,10 +110,10 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this, geoHandle);
 		}
 
-		public D2DPathGeometry CreateCombinedGeometry(D2DPathGeometry path1, D2DPathGeometry path2, 
+		public D2DPathGeometry CreateCombinedGeometry(D2DGeometry geo1, D2DGeometry geo2, 
 			D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10f)
 		{
-			HANDLE geoHandle = D2D.CreateCombinedGeometry(this.Handle, path1.Handle, path2.Handle, combineMode, flatteningTolerance);
+			HANDLE geoHandle = D2D.CreateCombinedGeometry(this.Handle, geo1.Handle, geo2.Handle, combineMode, flatteningTolerance);
 			return new D2DPathGeometry(this, geoHandle);
 		}
 
