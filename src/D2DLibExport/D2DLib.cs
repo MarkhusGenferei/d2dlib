@@ -284,30 +284,33 @@ namespace unvell.D2DLib
 															D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DrawPath(HANDLE path, D2DColor strokeColor, FLOAT strokeWidth = 1,
+		public static extern void DrawPath(HANDLE geoCtx, D2DColor strokeColor, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DrawPathWithPen(HANDLE path, HANDLE pen, FLOAT strokeWidth = 1);
+		public static extern void DrawPathWithPen(HANDLE geoCtx, HANDLE pen, FLOAT strokeWidth = 1);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void FillPathD(HANDLE path, D2DColor fillColor);
+		public static extern void FillPathD(HANDLE geoCtx, D2DColor fillColor);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FillPathWithBrush(HANDLE geoCtx, HANDLE brush);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillGeometryWithBrush(HANDLE path, HANDLE brush);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool PathFillContainsPoint(HANDLE pathCtx, D2DPoint point);
+		public static extern bool PathFillContainsPoint(HANDLE geoCtx, D2DPoint point);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern bool PathStrokeContainsPoint(HANDLE pathCtx, D2DPoint point, FLOAT strokeWidth = 1,
+		public static extern bool PathStrokeContainsPoint(HANDLE geoCtx, D2DPoint point, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void GetGeometryBounds(HANDLE pathCtx, ref D2DRect rect);
+		public static extern void GetGeometryBounds(HANDLE geoCtx, ref D2DRect rect);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void GetGeometryTransformedBounds(HANDLE pathCtx, ref Matrix3x2 mat3x2, ref D2DRect rect);
+		public static extern void GetGeometryTransformedBounds(HANDLE geoCtx, ref Matrix3x2 mat3x2, ref D2DRect rect);
 
 		#endregion // Geometry
 
