@@ -205,6 +205,11 @@ namespace unvell.D2DLib
 		{
 		}
 
+		public D2DRect(D2DRect other)
+			: this(other.left, other.top, other.Width, other.Height)
+		{
+		}
+
 		public D2DPoint Location
 		{
 			get { return new D2DPoint(left, top); }
@@ -385,6 +390,11 @@ namespace unvell.D2DLib
 
 		public D2DEllipse(FLOAT x, FLOAT y, FLOAT rx, FLOAT ry)
 			: this(new D2DPoint(x, y), rx, ry)
+		{
+		}
+
+		public D2DEllipse(D2DRect rect)
+			: this(rect.left + rect.Width / 2, rect.top + rect.Height / 2, rect.Width / 2, rect.Height / 2)
 		{
 		}
 

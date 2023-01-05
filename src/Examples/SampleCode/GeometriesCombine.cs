@@ -44,9 +44,13 @@ namespace unvell.D2DLib.Examples.SampleCode
 			string[] modeNames = { "Union", "Intersect", "XOR", "Exclude" };
 
 			/// create overlapping test geometries
+			D2DRect rect1 = new D2DRect(left + offset, offset, size, size);
 			D2DGeometry geo1 = this.Device.CreateRectangleGeometry(new D2DRect(left + offset, offset, size, size));
-			D2DGeometry geo2 = this.Device.CreateEllipseGeometry(new D2DPoint(left + offset + size, offset + size / 2), 
-				new D2DSize(size / 2, size / 2));
+
+			D2DRect rect2 = new D2DRect(rect1);
+			rect2.Offset(size / 2, 0);
+			D2DEllipse ellipse = new D2DEllipse(rect2);
+			D2DGeometry geo2 = this.Device.CreateEllipseGeometry(ellipse);
 
 			/// start drawing
 			g.Clear(D2DColor.White);
