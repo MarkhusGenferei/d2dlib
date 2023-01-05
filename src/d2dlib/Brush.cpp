@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -127,6 +127,62 @@ HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F
 	}
 
 	return (HANDLE)brushContext;
+}
+
+HANDLE CreateBitmapBrush(HANDLE ctx, HANDLE bitmap, D2D1_EXTEND_MODE modeX,
+	D2D1_EXTEND_MODE modeY, D2D1_BITMAP_INTERPOLATION_MODE interpolationMode, 
+	FLOAT opacity, D2D1_MATRIX_3X2_F * transform)
+{
+	RetrieveContext(ctx);
+
+	D2DBrushContext* brushContext = NULL;
+
+	ID2D1Bitmap* pBitpmap = reinterpret_cast<ID2D1Bitmap*>(bitmap);
+	ID2D1BitmapBrush* bitmapBrush = NULL;
+
+	D2D1_BITMAP_BRUSH_PROPERTIES bbProps;
+	bbProps.extendModeX = modeX;
+	bbProps.extendModeY = modeY;
+	bbProps.interpolationMode = interpolationMode;
+
+	D2D1_BRUSH_PROPERTIES bmpProps;
+	bmpProps.opacity = opacity;
+	bmpProps.transform = *transform;
+
+	HRESULT hr = context->renderTarget->CreateBitmapBrush(pBitpmap, 
+		bbProps, bmpProps, &bitmapBrush);
+
+	if (SUCCEEDED(hr))
+	{
+		brushContext = new D2DBrushContext();
+		brushContext->context = context;
+		brushContext->type = BrushType_BitmapBrush;
+		brushContext->brush = bitmapBrush;
+	}
+	else
+	{
+		context->lastErrorCode = hr;
+	}
+
+	return (HANDLE)brushContext;
+}
+
+void SetBitmapBrushTransform(HANDLE bitmapBrush, D2D1_MATRIX_3X2_F* transform)
+{
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(bitmapBrush);
+	if (brushContext != NULL && brushContext->brush != NULL && transform != NULL)
+	{
+		brushContext->brush->SetTransform(transform);
+	}
+}
+
+void GetBitmapBrushTransform(HANDLE bitmapBrush, D2D1_MATRIX_3X2_F* transform)
+{
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(bitmapBrush);
+	if (brushContext != NULL && brushContext->brush != NULL && transform != NULL)
+	{
+		brushContext->brush->GetTransform(transform);
+	}
 }
 
 void ReleaseBrush(HANDLE brushHandle)

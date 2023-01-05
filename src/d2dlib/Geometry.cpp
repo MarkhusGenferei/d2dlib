@@ -33,7 +33,7 @@ void DestroyGeometry(HANDLE geometryHandle) {
 	delete context;
 }
 
-HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
+HANDLE CreateRectangleGeometry(__in HANDLE ctx, __in D2D1_RECT_F& rect)
 {
 	RetrieveContext(ctx);
 	
@@ -47,7 +47,7 @@ HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 	return (HANDLE)pathCtx;
 }
 
-HANDLE CreateRoundedRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect, FLOAT radiusX, FLOAT radiusY)
+HANDLE CreateRoundedRectangleGeometry(__in HANDLE ctx, __in D2D1_RECT_F& rect, __in FLOAT radiusX, __in FLOAT radiusY)
 {
 	RetrieveContext(ctx);
 
@@ -71,7 +71,7 @@ HANDLE CreateRoundedRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect, FLOAT radiu
 	return NULL;
 }
 
-HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse)
+HANDLE CreateEllipseGeometry(__in HANDLE ctx, __in const D2D1_ELLIPSE& ellipse)
 {
 	RetrieveContext(ctx);
 
@@ -137,7 +137,7 @@ D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE geoCtx1, HANDLE g
 	}
 
 	if (pResultPath)
-		SafeRelease(&pResultPath);
+		delete pResultPath;
 
 	return NULL;
 }

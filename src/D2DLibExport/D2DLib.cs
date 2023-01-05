@@ -347,6 +347,17 @@ namespace unvell.D2DLib
 																													UINT gradientStopCount);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateBitmapBrush([In] HANDLE ctx, [In] HANDLE bitmap, 
+			[In] D2DExtentMode modeX, [In] D2DExtentMode modeY, [In] D2DBitmapInterpolationMode interpolationMode,
+			[In] FLOAT opacity, [In] ref Matrix3x2 transform);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void GetBitmapBrushTransform([In] HANDLE bitmapBrush, [Out] out Matrix3x2 transform);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetBitmapBrushTransform([In] HANDLE bitmapBrush, [In] ref Matrix3x2 transform);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseBrush(HANDLE brushCtx);
 
 		#endregion // Brush

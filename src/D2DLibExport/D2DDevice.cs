@@ -92,6 +92,28 @@ namespace unvell.D2DLib
 			return new D2DRadialGradientBrush(handle, gradientStops);
 		}
 
+		public D2DBitmapBrush CreateBitmapBrush(D2DBitmap bitmap, 
+			D2DExtentMode modeX = D2DExtentMode.Wrap, D2DExtentMode modeY = D2DExtentMode.Wrap,
+			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear, float opacity = 1f)
+		{
+			Matrix3x2 defaultTransform = Matrix3x2.Identity;
+
+			HANDLE handle = D2D.CreateBitmapBrush(this.Handle, bitmap.Handle, modeX, modeY, 
+				interpolationMode, opacity, ref defaultTransform);
+
+			return new D2DBitmapBrush(handle, bitmap);
+		}
+
+		public D2DBitmapBrush CreateBitmapBrush(D2DBitmap bitmap, Matrix3x2 transform,
+			D2DExtentMode modeX = D2DExtentMode.Wrap, D2DExtentMode modeY = D2DExtentMode.Wrap,
+			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear, float opacity = 1f)
+		{
+			HANDLE handle = D2D.CreateBitmapBrush(this.Handle, bitmap.Handle, modeX, modeY,
+				interpolationMode, opacity, ref transform);
+
+			return new D2DBitmapBrush(handle, bitmap);
+		}
+
 		public D2DRectangleGeometry CreateRectangleGeometry(FLOAT width, FLOAT height)
 		{
 			var rect = new D2DRect(0, 0, width, height);
@@ -103,6 +125,15 @@ namespace unvell.D2DLib
 			HANDLE rectGeometryHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
 			return new D2DRectangleGeometry(this, rectGeometryHandle);
 		}
+
+		public D2DRoundedRectangleGeometry CreateRoundedRectangleGeometry(D2DRect rect, float radiusX = 0, float radiusY = 0)
+		{
+			HANDLE rectGeometryHandle = D2D.CreateRoundedRectangleGeometry(this.Handle, ref rect, 
+				radiusX == 0 ? rect.Height / 2 : radiusX, radiusY == 0 ? rect.Width / 2 : radiusY);
+
+			return new D2DRoundedRectangleGeometry(this, rectGeometryHandle);
+		}
+
 
 		public D2DPathGeometry CreatePathGeometry()
 		{

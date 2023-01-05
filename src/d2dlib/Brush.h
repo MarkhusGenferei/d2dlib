@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -37,6 +37,13 @@ extern "C"
 	D2DLIB_API HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F offset,
 																						  FLOAT radiusX, FLOAT radiusY, D2D1_GRADIENT_STOP* gradientStops, 
 																							UINT gradientStopCount);
+
+	D2DLIB_API HANDLE CreateBitmapBrush(__in HANDLE ctx, __in HANDLE bitmap, __in D2D1_EXTEND_MODE modeX,
+		__in D2D1_EXTEND_MODE modeY, __in D2D1_BITMAP_INTERPOLATION_MODE interpolationMode, 
+		__in FLOAT opacity, __in D2D1_MATRIX_3X2_F * transform);
+
+	D2DLIB_API void GetBitmapBrushTransform(HANDLE bitmapBrush, D2D1_MATRIX_3X2_F* transform);
+	D2DLIB_API void SetBitmapBrushTransform(HANDLE bitmapBrush, D2D1_MATRIX_3X2_F* transform);
 
 	D2DLIB_API void ReleaseBrush(HANDLE brushHandle);
 }

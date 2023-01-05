@@ -78,6 +78,7 @@ enum BrushType {
 	BrushType_SolidBrush,
 	BrushType_LinearGradientBrush,
 	BrushType_RadialGradientBrush,
+	BrushType_BitmapBrush,
 };
 
 struct D2DBrushContext {

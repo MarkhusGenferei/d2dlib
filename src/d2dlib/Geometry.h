@@ -30,10 +30,10 @@ extern "C"
 {
 	D2DLIB_API void DestroyGeometry(HANDLE geometryHandle);
 
-	D2DLIB_API HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse);
+	D2DLIB_API HANDLE CreateEllipseGeometry(__in HANDLE ctx, __in const D2D1_ELLIPSE& ellipse);
 
-	D2DLIB_API HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect);
-	D2DLIB_API HANDLE CreateRoundedRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect, FLOAT radiusX, FLOAT radiusY);
+	D2DLIB_API HANDLE CreateRectangleGeometry(__in HANDLE ctx, __in D2D1_RECT_F& rect);
+	D2DLIB_API HANDLE CreateRoundedRectangleGeometry(__in HANDLE ctx, __in D2D1_RECT_F& rect, __in FLOAT radiusX, __in FLOAT radiusY);
 
 	D2DLIB_API HANDLE CreatePathGeometry(HANDLE ctx);
 	D2DLIB_API void DestroyPathGeometry(HANDLE handle);

@@ -1,11 +1,15 @@
 ﻿
 
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using unvell.D2DLib.Examples.Demos;
 using unvell.D2DLib.WinForm;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace unvell.D2DLib.Examples.SampleCode
 {
@@ -14,7 +18,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 		private const FLOAT left = 250;
 		private const FLOAT offset = 50f;
 		private const FLOAT size = 100f;
-		
+
 		private const string fontName = "Arials";
 		private const FLOAT fontSize = 20;
 
@@ -31,42 +35,43 @@ namespace unvell.D2DLib.Examples.SampleCode
 			fillColor.a = 0.25f;
 
 			D2DCombineMode[] modes = {
-				D2DCombineMode.D2D1_COMBINE_MODE_UNION,
-				D2DCombineMode.D2D1_COMBINE_MODE_INTERSECT,
-				D2DCombineMode.D2D1_COMBINE_MODE_XOR,
-				D2DCombineMode.D2D1_COMBINE_MODE_EXCLUDE  
+				D2DCombineMode.Union,
+				D2DCombineMode.Intersect,
+				D2DCombineMode.Xor,
+				D2DCombineMode.Exclude
 			};
 
 			string[] modeNames = { "Union", "Intersect", "XOR", "Exclude" };
 
-			/// create test geometries
-			D2DPathGeometry geoSquare = CreateGeometry(false, new D2DRect(left + offset, offset, size, size));
-			D2DPathGeometry geoDiamond = CreateGeometry(true, new D2DRect(left + offset + size / 2, offset, size, size));
+			/// create overlapping test geometries
+			D2DGeometry geo1 = this.Device.CreateRectangleGeometry(new D2DRect(left + offset, offset, size, size));
+			D2DGeometry geo2 = this.Device.CreateEllipseGeometry(new D2DPoint(left + offset + size, offset + size / 2), 
+				new D2DSize(size / 2, size / 2));
 
 			/// start drawing
 			g.Clear(D2DColor.White);
 
 			// draw test geometries without combining them
 			D2DPoint pt = new D2DPoint(0, 0);
-			DrawGeometries(geoSquare, geoDiamond, g, pt, fillColor, borderColor, 2);
-
-			pt.Y += (size + offset / 2);
+			DrawGeometries(geo1, geo2, g, pt, fillColor, borderColor, 2);
 
 			// draw test geometries by combining them
 			for (int i = 0; i < modes.Length; i++)
 			{
-				DrawCombinedGeometries(geoSquare, geoDiamond, modes[i], modeNames[i],
-					g, pt, fillColor, borderColor, 2);
-
 				pt.Y += (size + offset / 2);
-			}
 
+				DrawCombinedGeometries(geo1, geo2, modes[i], modeNames[i],
+					g, pt, fillColor, borderColor, 2);
+			}
+			
+			geo1?.Dispose();
+			geo2?.Dispose();
 		}
 
 		/// <summary>
 		/// Draw the geometry combining G1 and G2 geometries using combineMode 
 		/// </summary>
-		protected void DrawCombinedGeometries(D2DPathGeometry G1, D2DPathGeometry G2,
+		protected void DrawCombinedGeometries(D2DGeometry G1, D2DGeometry G2,
 			D2DCombineMode combineMode, string modeName, D2DGraphics g, D2DPoint topLeft,
 			D2DColor fillColor, D2DColor borderColor, float borderWidth)
 		{
@@ -87,7 +92,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 		/// <summary>
 		/// Draw G1 and G2 geometries without combining them
 		/// </summary>
-		protected void DrawGeometries(D2DPathGeometry G1, D2DPathGeometry G2,
+		protected void DrawGeometries(D2DGeometry G1, D2DGeometry G2,
 			D2DGraphics g, D2DPoint topLeft, D2DColor fillColor, D2DColor borderColor, float borderWidth)
 		{
 			g.PushTransform();
@@ -103,39 +108,5 @@ namespace unvell.D2DLib.Examples.SampleCode
 
 			g.PopTransform();
 		}
-
-		/// <summary>
-		/// Create and return a geometry representing a square or a diamond shape 
-		/// inside the given rect
-		/// </summary>
-		protected D2DPathGeometry CreateGeometry(bool diamond, D2DRect rect)
-		{
-			Vector2 ptStart;
-			Vector2[] points = new Vector2[3];
-
-			if (diamond)
-			{
-				ptStart = new Vector2(rect.left, rect.top + rect.Height / 2);
-				points[0] = new Vector2(rect.left + rect.Width / 2, rect.top);
-				points[1] = new Vector2(rect.right, rect.top + rect.Height / 2);
-				points[2] = new Vector2(rect.left + rect.Width / 2, rect.bottom);
-			}
-			else
-			{
-				ptStart = new Vector2(rect.left, rect.top);
-				points[0] = new Vector2(rect.right, rect.top);
-				points[1] = new Vector2(rect.right, rect.bottom);
-				points[2] = new Vector2(rect.left, rect.bottom);
-			}
-
-			D2DPathGeometry geo = Device.CreatePathGeometry();
-			geo.SetStartPoint(ptStart);
-			geo.AddLines(points);
-			geo.ClosePath();
-
-			return geo;
-		}
-
-
 	}
 }

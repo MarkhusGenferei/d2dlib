@@ -611,26 +611,49 @@ namespace unvell.D2DLib
 		/// Produce a geometry representing the set of points contained in either the first
 		/// or the second geometry.
 		/// </summary>
-		D2D1_COMBINE_MODE_UNION = 0,
+		Union = 0,
 
 		/// <summary>
 		/// Produce a geometry representing the set of points common to the first and the
 		/// second geometries.
 		/// </summary>
-		D2D1_COMBINE_MODE_INTERSECT = 1,
+		Intersect = 1,
 
 		/// <summary>
 		/// Produce a geometry representing the set of points contained in the first
 		/// geometry or the second geometry, but not both.
 		/// </summary>
-		D2D1_COMBINE_MODE_XOR = 2,
+		Xor = 2,
 
 		/// <summary>
 		/// Produce a geometry representing the set of points contained in the first
 		/// geometry but not the second geometry.
 		/// </summary>
-		D2D1_COMBINE_MODE_EXCLUDE = 3,
+		Exclude = 3,
 	}
+
+	/// <summary>
+	/// Specifies how a brush paints areas outside of its normal content area.
+	/// </summary>
+	public enum D2DExtentMode
+	{
+		/// <summary>
+		/// Repeat the edge pixels of the brush's content for all regions outside the normal content area.
+		/// </summary>
+		Clamp = 0,
+
+		/// <summary>
+		/// Repeat the brush's content.
+		/// </summary>
+		Wrap = 1,
+
+		/// <summary>
+		/// The same as D2D1_EXTEND_MODE_WRAP, except that alternate tiles of the brush's content are flipped. 
+		/// (The brush's normal content is drawn untransformed.)
+		/// </summary>
+		Mirror = 2,
+	};
+	
 
 }
 
