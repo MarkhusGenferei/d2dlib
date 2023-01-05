@@ -47,6 +47,30 @@ HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 	return (HANDLE)pathCtx;
 }
 
+HANDLE CreateRoundedRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect, FLOAT radiusX, FLOAT radiusY)
+{
+	RetrieveContext(ctx);
+
+	D2D1_ROUNDED_RECT rrect;
+	rrect.rect = rect;
+	rrect.radiusX = radiusX;
+	rrect.radiusY = radiusY;
+
+	ID2D1RoundedRectangleGeometry* roundedRectangleGeometry = NULL;
+	HRESULT hr = context->factory->CreateRoundedRectangleGeometry(&rrect, &roundedRectangleGeometry);	
+
+	if (SUCCEEDED(hr))
+	{
+		D2DGeometryContext* geometryCtx = new D2DGeometryContext();
+		geometryCtx->d2context = context;
+		geometryCtx->geometry = roundedRectangleGeometry;
+		return (HANDLE)geometryCtx;
+	}
+
+	context->lastErrorCode = hr;
+	return NULL;
+}
+
 HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse)
 {
 	RetrieveContext(ctx);
@@ -89,19 +113,33 @@ void DestroyPathGeometry(HANDLE ctx)
 	delete pathContext;
 }
 
-D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2, 
+D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE geoCtx1, HANDLE geoCtx2,
 	D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance)
 {
 	D2DContext* d2dContext = reinterpret_cast<D2DContext*>(d2dCtx);
 	D2DPathContext* pResultPath = reinterpret_cast<D2DPathContext*>(CreatePathGeometry(d2dContext));
 
-	D2DPathContext* pGeo1Path = reinterpret_cast<D2DPathContext*>(pathCtx1);
-	D2DPathContext* pGeo2Path = reinterpret_cast<D2DPathContext*>(pathCtx2);
+	D2DGeometryContext* pGeo1Path = reinterpret_cast<D2DGeometryContext*>(geoCtx1);
+	D2DGeometryContext* pGeo2Path = reinterpret_cast<D2DGeometryContext*>(geoCtx2);
 
-	HRESULT hr = pGeo1Path->geometry->CombineWithGeometry(pGeo2Path->geometry, combineMode, NULL, pResultPath->sink);
-	pResultPath->sink->Close();
+	if (pResultPath && pGeo1Path && pGeo2Path)
+	{
+		HRESULT hr = pGeo1Path->geometry->CombineWithGeometry(pGeo2Path->geometry, combineMode,
+			NULL, flatteningTolerance, pResultPath->sink);
 
-	return (HANDLE)pResultPath;
+		if (SUCCEEDED(hr))
+		{
+			pResultPath->sink->Close();
+			return (HANDLE)pResultPath;
+		}
+
+		d2dContext->lastErrorCode = hr;
+	}
+
+	if (pResultPath)
+		delete pResultPath;
+
+	return NULL;
 }
 
 void SetPathStartPoint(HANDLE ctx, D2D1_POINT_2F startPoint) {

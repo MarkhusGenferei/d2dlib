@@ -33,12 +33,13 @@ extern "C"
 	D2DLIB_API HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse);
 
 	D2DLIB_API HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect);
+	D2DLIB_API HANDLE CreateRoundedRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect, FLOAT radiusX, FLOAT radiusY);
 
 	D2DLIB_API HANDLE CreatePathGeometry(HANDLE ctx);
 	D2DLIB_API void DestroyPathGeometry(HANDLE handle);
 
-	D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2,
-		D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10.f);
+	D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE geoCtx1, HANDLE geoCtx2,
+		D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10);
 
 	D2DLIB_API void SetPathStartPoint(HANDLE handle, D2D1_POINT_2F startPoint);
 	D2DLIB_API void ClosePath(HANDLE handle);
