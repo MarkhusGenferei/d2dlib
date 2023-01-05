@@ -123,7 +123,7 @@ namespace unvell.D2DLib
 			return new D2DGeometry(this, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
 		}
 
-		public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DEllipse ellipse)
+		public D2DGeometry CreateEllipseGeometry(D2DEllipse ellipse)
 		{
 			return new D2DGeometry(this, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
 		}
