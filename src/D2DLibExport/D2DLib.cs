@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace unvell.D2DLib

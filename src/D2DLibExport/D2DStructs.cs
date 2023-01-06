@@ -392,12 +392,7 @@ namespace unvell.D2DLib
 			: this(new D2DPoint(x, y), rx, ry)
 		{
 		}
-
-		public D2DEllipse(D2DRect rect)
-			: this(rect.left + rect.Width / 2, rect.top + rect.Height / 2, rect.Width / 2, rect.Height / 2)
-		{
-		}
-
+		
 		public FLOAT X { get { return origin.X; } set { origin.X = value; } }
 		public FLOAT Y { get { return origin.Y; } set { origin.Y = value; } }
 	}
